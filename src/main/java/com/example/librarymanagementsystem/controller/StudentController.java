@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.controller;
 
 import com.example.librarymanagementsystem.DTO.RequestDto.StudentRequestDto;
 import com.example.librarymanagementsystem.DTO.RequestDto.UpdateStudentMobileRequestDto;
+import com.example.librarymanagementsystem.DTO.ResponseDto.StudentResponseDto;
 import com.example.librarymanagementsystem.DTO.ResponseDto.UpdateStudentMobileResponseDto;
 import com.example.librarymanagementsystem.entity.Student;
 import com.example.librarymanagementsystem.exceptions.InvalidIdException;
@@ -47,7 +48,7 @@ public class StudentController {
 
     //find a student by id
     @GetMapping("/get_student")
-    public Student getStudent(@RequestParam("id")int id) throws InvalidIdException {
+    public StudentResponseDto getStudent(@RequestParam("id")int id) throws InvalidIdException {
         return studentService.getStudentById(id);
     }
 

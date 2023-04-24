@@ -2,12 +2,15 @@ package com.example.librarymanagementsystem.service.impl;
 
 import com.example.librarymanagementsystem.DTO.RequestDto.StudentRequestDto;
 import com.example.librarymanagementsystem.DTO.RequestDto.UpdateStudentMobileRequestDto;
+import com.example.librarymanagementsystem.DTO.ResponseDto.CardResponseDto;
+import com.example.librarymanagementsystem.DTO.ResponseDto.StudentResponseDto;
 import com.example.librarymanagementsystem.DTO.ResponseDto.UpdateStudentMobileResponseDto;
 import com.example.librarymanagementsystem.entity.Card;
 import com.example.librarymanagementsystem.entity.Student;
 import com.example.librarymanagementsystem.enums.CardStatus;
 import com.example.librarymanagementsystem.exceptions.InvalidIdException;
 import com.example.librarymanagementsystem.exceptions.StudentNotFoundException;
+import com.example.librarymanagementsystem.repository.CardRepository;
 import com.example.librarymanagementsystem.repository.StudentRepository;
 import com.example.librarymanagementsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class StudentServiceImplementation implements StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    CardRepository cardRepository;
     @Override
     public String addStudent(StudentRequestDto studentRequestDto) {
 
@@ -102,12 +108,34 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     @Override
-    public Student getStudentById(int id) throws InvalidIdException {
+    public StudentResponseDto getStudentById(int id) throws InvalidIdException {
         Student student;
+
 
         try{
             student = studentRepository.findById(id).get();
-            return student;
+            StudentResponseDto studentResponseDto = new StudentResponseDto();
+
+            studentResponseDto.setName(student.getName());
+            studentResponseDto.setAge(student.getAge());
+            studentResponseDto.setMobNo(student.getMobNo());
+            studentResponseDto.setDepartment(student.getDepartment());
+            studentResponseDto.setId(student.getId());
+
+
+            CardResponseDto cardResponseDto = new CardResponseDto();
+
+            cardResponseDto.setCardStatus(student.getCard().getCardStatus());
+            cardResponseDto.setId(student.getId());
+            cardResponseDto.setIssueDate(student.getCard().getIssueDate());
+            cardResponseDto.setUpdatedOn(student.getCard().getUpdatedOn());
+            cardResponseDto.setValidTill(student.getCard().getValidTill());
+
+            studentResponseDto.setCardResponseDto(cardResponseDto);
+
+            return studentResponseDto;
+
+
         }
         catch (Exception e)
         {
