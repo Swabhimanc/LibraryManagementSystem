@@ -70,7 +70,7 @@ public class TransactionServiceImplementation implements TransactionService {
             throw new Exception("Card is not Active");
         }
 
-        if(book.isIssued()==true)
+        if(book.getIssued().equals(String.valueOf(true)))
         {
             transaction.setTransactionStatus(TransactionStatus.FAIL);
             transactionRepository.save(transaction);
@@ -78,7 +78,7 @@ public class TransactionServiceImplementation implements TransactionService {
         }
 
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
-        book.setIssued(true);
+        book.setIssued(String.valueOf(true));
         book.setCard(card);
         book.getTransactionList().add(transaction);
 

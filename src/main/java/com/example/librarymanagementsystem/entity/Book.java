@@ -28,7 +28,7 @@ public class Book {
     private int numberOfPages;
     private int price;
 
-    private boolean issued = false;
+    private String issued = String.valueOf(false);
 
     @ManyToOne
     @JoinColumn
